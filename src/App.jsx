@@ -26,7 +26,7 @@ function App() {
           <div>
             {todoList.map((todo) => (
               <ListTodos
-                key={todo}
+                key={todo.id}
                 todo={todo}
                 handleDeleteButtonClick={handleDeleteButtonClick}
               />

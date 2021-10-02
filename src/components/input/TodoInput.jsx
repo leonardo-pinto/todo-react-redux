@@ -4,6 +4,7 @@ import { RiAddCircleLine } from 'react-icons/ri';
 
 function TodoInput(props) {
   const [todo, setTodo] = useState('');
+
   const { handleAddButtonClick } = props;
 
   useEffect(() => {

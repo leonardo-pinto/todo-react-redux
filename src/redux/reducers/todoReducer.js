@@ -2,9 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const todoSlice = createSlice({
   name: 'todos',
-  // initialState: {
-  //   todoList: [],
-  // },
   initialState: {
     todoList: [],
   },
@@ -21,13 +18,26 @@ const todoSlice = createSlice({
         ],
       };
     },
-    // addTodo: (state, action) => {
-    //   state.todoList = [...state.todoList, action.payload];
-    // },
     deleteTodo(state, action) {
-      state.todoList = state.todoList.filter((todo) => todo.id !== action.payload);
+      return {
+        ...state,
+        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
+      };
     },
-    // editTodo(state, action) {},
+    editTodo(state, action) {
+      return {
+        ...state,
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              text: action.payload.text,
+            };
+          }
+          return todo;
+        }),
+      };
+    },
   },
 });
 
