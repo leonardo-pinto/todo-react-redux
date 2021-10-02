@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { RiAddCircleLine } from 'react-icons/ri';
 
 function TodoInput(props) {
   const [todo, setTodo] = useState('');
   const { handleAddButtonClick } = props;
+
+  useEffect(() => {
+    setTodo('');
+  }, [handleAddButtonClick]);
 
   return (
     <div data-testid="inputContainer">

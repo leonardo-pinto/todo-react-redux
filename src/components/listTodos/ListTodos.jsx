@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 function ListTodos(props) {
-  const { todo, handleDeleteButtonClick } = props;
+  const { todo: { text, id }, handleDeleteButtonClick } = props; // adicionar completed
 
   return (
     <div data-testid="itemContainer">
       <p data-testid="itemTodo">
-        {todo}
+        {text}
       </p>
       <button
         type="button"
         data-testid="deleteButton"
-        onClick={() => handleDeleteButtonClick(todo)}
+        onClick={() => handleDeleteButtonClick(id)}
       >
         <TiDeleteOutline />
       </button>

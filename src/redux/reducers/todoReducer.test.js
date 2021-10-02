@@ -12,17 +12,28 @@ describe('todoReducer', () => {
       type: addTodo,
       payload: todo,
     });
-    expect(newState).toEqual({ todoList: [todo] });
+
+    const expectedItem = {
+      id: 1,
+      completed: false,
+      text: todo,
+    };
+
+    expect(newState).toEqual({ todoList: [expectedItem] });
   });
 
   it('Should delete todo if receiving action type deleteTodo', () => {
     const initialState = {
-      todoList: ['study context api'],
+      todoList: [{
+        id: 1,
+        completed: false,
+        text: 'study redux',
+      }],
     };
-    const todoToBeRemoved = 'study context api';
+    const idToBeRemoved = 1;
     const newState = todoReducer(initialState, {
       type: deleteTodo,
-      payload: todoToBeRemoved,
+      payload: idToBeRemoved,
     });
 
     expect(newState).toEqual({ todoList: [] });
