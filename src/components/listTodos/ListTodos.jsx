@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  deleteIcon,
-  editIcon,
-  cancelEditIcon,
-  confirmEditIcon,
+  DeleteIcon,
+  EditIcon,
+  CancelEditIcon,
+  ConfirmEditIcon,
 } from '../icons/icons';
 
 function ListTodos(props) {
@@ -48,14 +48,14 @@ function ListTodos(props) {
               data-testid="deleteButton"
               onClick={() => handleDeleteButtonClick(id)}
             >
-              {deleteIcon()}
+              {DeleteIcon()}
             </button>
             <button
               type="button"
               data-testid="editButton"
               onClick={() => setEditEnabled(!editEnabled)}
             >
-              {confirmEditIcon()}
+              {ConfirmEditIcon()}
             </button>
           </div>
         )
@@ -74,14 +74,14 @@ function ListTodos(props) {
               data-testid="confirmEditButton"
               onClick={() => confirmEditButtonClick()}
             >
-              {editIcon()}
+              {EditIcon()}
             </button>
             <button
               type="button"
               data-testid="cancelEditButton"
               onClick={() => setEditEnabled(!editEnabled)}
             >
-              {cancelEditIcon()}
+              {CancelEditIcon()}
             </button>
           </div>
         )}

@@ -1,4 +1,6 @@
-export function todoIcon() {
+import React from 'react';
+
+export function TodoIcon() {
   return (
     <svg
       data-testid="logo"
@@ -18,9 +20,10 @@ export function todoIcon() {
   );
 }
 
-export function addIcon() {
+export function AddIcon() {
   return (
     <svg
+      data-testid="addIcon"
       className="w-6 h-6"
       fill="none"
       stroke="currentColor"
@@ -37,7 +40,7 @@ export function addIcon() {
   );
 }
 
-export function deleteIcon() {
+export function DeleteIcon() {
   return (
     <svg
       className="w-10 h-10 p-2"
@@ -51,7 +54,7 @@ export function deleteIcon() {
   );
 }
 
-export function editIcon() {
+export function EditIcon() {
   return (
     <svg
       className="w-10 h-10 p-2"
@@ -65,7 +68,7 @@ export function editIcon() {
   );
 }
 
-export function cancelEditIcon() {
+export function CancelEditIcon() {
   return (
     <svg
       className="w-10 h-10 p-2"
@@ -79,7 +82,7 @@ export function cancelEditIcon() {
   );
 }
 
-export function confirmEditIcon() {
+export function ConfirmEditIcon() {
   return (
     <svg
       className="w-10 h-10 p-2"
