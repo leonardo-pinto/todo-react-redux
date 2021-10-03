@@ -1,4 +1,3 @@
-import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/header/Header';
 import TodoInput from './components/input/TodoInput';
@@ -37,7 +36,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="w-2/3 mt-20 mx-auto border-2 border-solid border-black rounded">
       <Header />
       <TodoInput handleAddButtonClick={handleAddButtonClick} />
       { todoList.length > 0
@@ -55,7 +54,7 @@ function App() {
             ))}
           </div>
         )
-        : <h1>No todos</h1>}
+        : <h1 className="p-4 text-2xl text-center">No todos</h1>}
     </div>
   );
 }
