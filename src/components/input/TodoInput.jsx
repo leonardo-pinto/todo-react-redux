@@ -11,7 +11,7 @@ function TodoInput(props) {
   }, [handleAddButtonClick]);
 
   return (
-    <div className="flex justify-center items-center m-4" data-testid="inputContainer">
+    <div className="w-full flex justify-center items-center" data-testid="inputContainer">
       <input
         className="shadow appearance-none border rounded mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         type="text"

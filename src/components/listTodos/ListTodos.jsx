@@ -26,7 +26,7 @@ function ListTodos(props) {
     <div data-testid="itemContainer">
       { !editEnabled
         ? (
-          <div className="space-x-4 flex justify-center items-center p-4">
+          <div className="space-x-4 flex justify-center items-center p-4 w-full">
             <input
               className="w-4 h-4 p-2"
               type="checkbox"
