@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import SharedButton from '../button/SharedButton';
+import { RiDeleteBin6Line as DeleteIcon, RiCheckboxCircleLine as ConfirmEditIcon } from 'react-icons/ri';
+import { ImCancelCircle as CancelIcon } from 'react-icons/im';
+import { BiEdit as EditIcon } from 'react-icons/bi';
 
 function ListTodos(props) {
   const { todo, handleDeleteButtonClick, handleEditButtonClick } = props; // adicionar completed
@@ -21,34 +23,45 @@ function ListTodos(props) {
             <p data-testid="itemTodo">
               {text}
             </p>
-            <SharedButton
-              todoId={id}
-              buttonId="deleteButton"
-              onClickAction={handleDeleteButtonClick}
-            />
-            <SharedButton
-              buttonId="editButton"
-              editEnabled={editEnabled}
-              onClickAction={setEditEnabled}
-            />
+            <button
+              type="button"
+              data-testid="deleteButton"
+              onClick={() => handleDeleteButtonClick(id)}
+            >
+              <DeleteIcon />
+            </button>
+            <button
+              type="button"
+              data-testid="editButton"
+              onClick={() => setEditEnabled(!editEnabled)}
+            >
+              <EditIcon />
+            </button>
           </div>
         )}
       { editEnabled
         && (
         <div>
           <input
+            data-testid="editTodoInput"
             type="text"
             value={editedTodoText}
             onChange={(e) => setEditedTodoText(e.target.value)}
           />
-          <SharedButton
-            buttonId="confirmEditButton"
-            onClickAction={confirmEditButtonClick}
-          />
-          <SharedButton
-            buttonId="cancelEditButton"
-            onClickAction={setEditEnabled}
-          />
+          <button
+            type="button"
+            data-testid="confirmEditButton"
+            onClick={() => confirmEditButtonClick()}
+          >
+            <ConfirmEditIcon />
+          </button>
+          <button
+            type="button"
+            data-testid="cancelEditButton"
+            onClick={() => setEditEnabled(!editEnabled)}
+          >
+            <CancelIcon />
+          </button>
         </div>
         )}
     </div>
