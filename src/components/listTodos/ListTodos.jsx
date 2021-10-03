@@ -6,12 +6,12 @@ import { BiEdit as EditIcon } from 'react-icons/bi';
 
 function ListTodos(props) {
   const {
-    todo,
+    todo: { text, id },
     handleDeleteButtonClick,
     handleEditButtonClick,
     handleCompleteButtonClick,
   } = props;
-  const { text, id } = todo;
+
   const [editEnabled, setEditEnabled] = useState(false);
   const [editedTodoText, setEditedTodoText] = useState(text);
   const [completed, setCompleted] = useState(false); // alterar nome
@@ -84,10 +84,10 @@ function ListTodos(props) {
 }
 
 ListTodos.propTypes = {
-  todo: PropTypes.objectOf(PropTypes.shape({
+  todo: PropTypes.shape({
     id: PropTypes.number,
     text: PropTypes.string,
-  })).isRequired,
+  }).isRequired,
   handleDeleteButtonClick: PropTypes.func.isRequired,
   handleEditButtonClick: PropTypes.func.isRequired,
   handleCompleteButtonClick: PropTypes.func.isRequired,
