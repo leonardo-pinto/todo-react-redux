@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import {
+  render, screen, fireEvent, cleanup,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
@@ -14,15 +16,18 @@ const todoTest = {
 describe('ListTodos component', () => {
   let deleteClickMock;
   let editClickMock;
+  let completeClickMock;
 
   beforeEach(() => {
     deleteClickMock = jest.fn();
     editClickMock = jest.fn();
+    completeClickMock = jest.fn();
     render(
       <Provider store={store}>
         <ListTodos
           handleEditButtonClick={editClickMock}
           handleDeleteButtonClick={deleteClickMock}
+          handleCompleteButtonClick={completeClickMock}
           todo={todoTest}
         />
       </Provider>,
@@ -71,7 +76,7 @@ describe('ListTodos component', () => {
     expect(editInput.value).toBe('edited text');
   });
 
-  it('test test', () => {
+  it('Should not update todo text if cancelEditButton is clicked', () => {
     const editBtn = screen.getByTestId('editButton');
     fireEvent.click(editBtn);
 
@@ -86,5 +91,12 @@ describe('ListTodos component', () => {
 
     const currentItemTodo = screen.getByTestId('itemTodo');
     expect(currentItemTodo.innerHTML).toBe('test');
+  });
+
+  it('Should change checkbox value after click', () => {
+    const checkbox = screen.getByTestId('completedCheckbox');
+    expect(checkbox.checked).toBe(false);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(true);
   });
 });

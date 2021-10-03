@@ -40,11 +40,30 @@ const todoSlice = createSlice({
         }),
       };
     },
+    completeTodo(state, action) {
+      return {
+        ...state,
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              completed: action.payload.completed,
+            };
+          }
+          return todo;
+        }),
+      };
+    },
   },
 });
 
 const { actions, reducer } = todoSlice;
 
-export const { addTodo, deleteTodo, editTodo } = actions;
+export const {
+  addTodo,
+  deleteTodo,
+  editTodo,
+  completeTodo,
+} = actions;
 
 export default reducer;

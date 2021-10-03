@@ -1,4 +1,6 @@
-import todoReducer, { addTodo, deleteTodo, editTodo } from './todoReducer';
+import todoReducer, {
+  addTodo, deleteTodo, editTodo, completeTodo,
+} from './todoReducer';
 
 describe('todoReducer', () => {
   it('Should return default state', () => {
@@ -90,8 +92,6 @@ describe('todoReducer', () => {
     };
 
     expect(newState).toStrictEqual(expectedNewState);
-
-    // expect(newState).toEqual({ todoList: [expectedItem] });
   });
 
   it('Should delete todo if receiving action type deleteTodo', () => {
@@ -162,5 +162,56 @@ describe('todoReducer', () => {
     };
 
     expect(newState).toStrictEqual(expectedNewState);
+  });
+
+  it('Should mark checkbox as checked if receiving action type completeTodo', () => {
+    const initialState = {
+      todoList: [
+        {
+          id: 1,
+          completed: false,
+          text: 'test 1',
+        },
+        {
+          id: 2,
+          completed: false,
+          text: 'test 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'test 3',
+        },
+      ],
+    };
+    const newState = todoReducer(initialState, {
+      type: completeTodo,
+      payload: {
+        id: 1,
+        completed: true,
+      },
+    });
+
+    const expectedNewState = {
+      todoList: [
+        {
+          id: 1,
+          completed: true,
+          text: 'test 1',
+        },
+        {
+          id: 2,
+          completed: false,
+          text: 'test 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'test 3',
+        },
+      ],
+    };
+
+    expect(newState).toEqual(expectedNewState);
   });
 });
