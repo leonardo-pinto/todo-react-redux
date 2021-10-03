@@ -1,44 +1,90 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import ListTodos from './ListTodos';
 
+const todoTest = {
+  id: 1,
+  text: 'test',
+  completed: false,
+};
+
 describe('ListTodos component', () => {
-  it('Should render item component correctly', () => {
-    const onClickMock = jest.fn();
+  let deleteClickMock;
+  let editClickMock;
+
+  beforeEach(() => {
+    deleteClickMock = jest.fn();
+    editClickMock = jest.fn();
     render(
       <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
+        <ListTodos
+          handleEditButtonClick={editClickMock}
+          handleDeleteButtonClick={deleteClickMock}
+          todo={todoTest}
+        />
       </Provider>,
     );
-
-    const itemContainer = screen.getByTestId('itemContainer');
-    expect(itemContainer).toBeInTheDocument();
   });
 
-  it('Should render items correctly', () => {
-    const onClickMock = jest.fn();
-    render(
-      <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
-      </Provider>,
-    );
-    const itemTodo = screen.getByTestId('itemTodo');
-    expect(itemTodo).toBeInTheDocument();
-  });
+  afterEach(cleanup);
 
-  it('calls "onClick" on button click', () => {
-    const onClickMock = jest.fn();
-    render(
-      <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
-      </Provider>,
-    );
+  it('Should render delete button correctly', () => {
     const deleteBtn = screen.getByTestId('deleteButton');
 
+    expect(deleteBtn).toBeInTheDocument();
+  });
+
+  it('Should render edit button correctly', () => {
+    const editBtn = screen.getByTestId('editButton');
+
+    expect(editBtn).toBeInTheDocument();
+  });
+
+  it('Should call onClick function after clicking on delete button', () => {
+    const deleteBtn = screen.getByTestId('deleteButton');
     fireEvent.click(deleteBtn);
-    expect(onClickMock).toHaveBeenCalledTimes(1);
+
+    expect(deleteClickMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should call onClick function after clicking on edit button', () => {
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
+
+    const confirmEditBtn = screen.getByTestId('confirmEditButton');
+    fireEvent.click(confirmEditBtn);
+
+    expect(editClickMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should change edit input value', () => {
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
+
+    const editInput = screen.getByTestId('editTodoInput');
+    expect(editInput.value).toBe('test');
+
+    fireEvent.change(editInput, { target: { value: 'edited text' } });
+    expect(editInput.value).toBe('edited text');
+  });
+
+  it('test test', () => {
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
+
+    const editInput = screen.getByTestId('editTodoInput');
+    expect(editInput.value).toBe('test');
+
+    fireEvent.change(editInput, { target: { value: 'edited text' } });
+    expect(editInput.value).toBe('edited text');
+
+    const cancelEditBtn = screen.getByTestId('cancelEditButton');
+    fireEvent.click(cancelEditBtn);
+
+    const currentItemTodo = screen.getByTestId('itemTodo');
+    expect(currentItemTodo.innerHTML).toBe('test');
   });
 });
