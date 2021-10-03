@@ -36,25 +36,27 @@ function App() {
   };
 
   return (
-    <div className="w-2/3 mt-20 mx-auto border-2 border-solid border-black rounded">
-      <Header />
-      <TodoInput handleAddButtonClick={handleAddButtonClick} />
-      { todoList.length > 0
-        ? (
-          <div>
-            {todoList.map((todo) => (
-              <div key={todo.id}>
-                <ListTodos
-                  todo={todo}
-                  handleDeleteButtonClick={handleDeleteButtonClick}
-                  handleEditButtonClick={handleEditButtonClick}
-                  handleCompleteButtonClick={handleCompleteButtonClick}
-                />
-              </div>
-            ))}
-          </div>
-        )
-        : <h1 className="p-4 text-2xl text-center">No todos</h1>}
+    <div className="flex h-screen items-center bg-indigo-200">
+      <div className="bg-indigo-300 w-2/3 mx-auto border-2 border-solid border-black rounded-lg">
+        <Header />
+        <TodoInput handleAddButtonClick={handleAddButtonClick} />
+        { todoList.length > 0
+          ? (
+            <div>
+              {todoList.map((todo) => (
+                <div key={todo.id}>
+                  <ListTodos
+                    todo={todo}
+                    handleDeleteButtonClick={handleDeleteButtonClick}
+                    handleEditButtonClick={handleEditButtonClick}
+                    handleCompleteButtonClick={handleCompleteButtonClick}
+                  />
+                </div>
+              ))}
+            </div>
+          )
+          : <h1 className="p-4 text-2xl text-center">No todos</h1>}
+      </div>
     </div>
   );
 }
