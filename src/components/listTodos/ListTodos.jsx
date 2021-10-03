@@ -78,7 +78,7 @@ function ListTodos(props) {
 }
 
 ListTodos.propTypes = {
-  todo: PropTypes.arrayOf(PropTypes.shape({
+  todo: PropTypes.objectOf(PropTypes.shape({
     id: PropTypes.number,
     text: PropTypes.string,
   })).isRequired,

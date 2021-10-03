@@ -5,12 +5,18 @@ import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import ListTodos from './ListTodos';
 
+const todoTest = {
+  id: 1,
+  text: 'test',
+  completed: false,
+};
+
 describe('ListTodos component', () => {
   it('Should render item component correctly', () => {
     const onClickMock = jest.fn();
     render(
       <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
+        <ListTodos todo={todoTest} handleDeleteButtonClick={onClickMock} />
       </Provider>,
     );
 
@@ -22,7 +28,7 @@ describe('ListTodos component', () => {
     const onClickMock = jest.fn();
     render(
       <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
+        <ListTodos todo={todoTest} handleDeleteButtonClick={onClickMock} />
       </Provider>,
     );
     const itemTodo = screen.getByTestId('itemTodo');
@@ -33,7 +39,7 @@ describe('ListTodos component', () => {
     const onClickMock = jest.fn();
     render(
       <Provider store={store}>
-        <ListTodos todo="test" handleDeleteButtonClick={onClickMock} />
+        <ListTodos todo={todoTest} handleDeleteButtonClick={onClickMock} />
       </Provider>,
     );
     const deleteBtn = screen.getByTestId('deleteButton');
