@@ -11,7 +11,9 @@ const todoSlice = createSlice({
         ...state,
         todoList: [
           ...state.todoList, {
-            id: state.todoList.length + 1,
+            id: ((state.todoList.length === 0)
+              ? 1
+              : state.todoList[state.todoList.length - 1].id + 1),
             text: action.payload,
             completed: false,
           },
