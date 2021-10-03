@@ -55,7 +55,7 @@ function ListTodos(props) {
               data-testid="editButton"
               onClick={() => setEditEnabled(!editEnabled)}
             >
-              {ConfirmEditIcon()}
+              {EditIcon()}
             </button>
           </div>
         )
@@ -74,7 +74,7 @@ function ListTodos(props) {
               data-testid="confirmEditButton"
               onClick={() => confirmEditButtonClick()}
             >
-              {EditIcon()}
+              {ConfirmEditIcon()}
             </button>
             <button
               type="button"
