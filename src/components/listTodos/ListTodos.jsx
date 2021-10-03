@@ -13,8 +13,6 @@ function ListTodos(props) {
     setEditEnabled(!editEnabled);
   };
 
-  console.log(todo.id);
-
   return (
     <div data-testid="itemContainer">
       { !editEnabled
@@ -30,6 +28,7 @@ function ListTodos(props) {
             />
             <SharedButton
               buttonId="editButton"
+              editEnabled={editEnabled}
               onClickAction={setEditEnabled}
             />
           </div>
@@ -51,7 +50,6 @@ function ListTodos(props) {
             onClickAction={setEditEnabled}
           />
         </div>
-
         )}
     </div>
   );

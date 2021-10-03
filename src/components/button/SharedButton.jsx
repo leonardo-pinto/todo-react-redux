@@ -5,14 +5,19 @@ import { BiEdit as EditIcon } from 'react-icons/bi';
 import { RiDeleteBin6Line as DeleteIcon, RiCheckboxCircleLine as ConfirmEditIcon } from 'react-icons/ri';
 
 function SharedButton(props) {
-  const { buttonId, onClickAction, todoId } = props;
+  const {
+    buttonId,
+    onClickAction,
+    todoId,
+    editEnabled,
+  } = props;
 
   const icons = () => {
     switch (buttonId) {
-      case 'deleteButton': return <DeleteIcon />;
-      case 'editButton': return <EditIcon />;
-      case 'confirmEditButton': return <ConfirmEditIcon />;
-      case 'cancelEditButton': return <CancelIcon />;
+      case 'deleteButton': return <DeleteIcon onClick={() => onClickAction(todoId)} />;
+      case 'editButton': return <EditIcon onClick={() => onClickAction(!editEnabled)} />;
+      case 'confirmEditButton': return <ConfirmEditIcon onClick={() => onClickAction()} />;
+      case 'cancelEditButton': return <CancelIcon onClick={() => onClickAction()} />;
       default: return null;
     }
   };
@@ -21,7 +26,6 @@ function SharedButton(props) {
     <button
       type="button"
       data-testid={buttonId}
-      onClick={() => onClickAction(todoId)}
     >
       { icons() }
     </button>
@@ -32,10 +36,12 @@ SharedButton.propTypes = {
   buttonId: PropTypes.string.isRequired,
   onClickAction: PropTypes.func.isRequired,
   todoId: PropTypes.number,
+  editEnabled: PropTypes.bool,
 };
 
 SharedButton.defaultProps = {
   todoId: null,
+  editEnabled: null,
 };
 
 export default SharedButton;
