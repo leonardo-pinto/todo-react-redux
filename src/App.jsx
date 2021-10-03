@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/header/Header';
 import TodoInput from './components/input/TodoInput';
 import ListTodos from './components/listTodos/ListTodos';
-import { addTodo, deleteTodo } from './redux/reducers/todoReducer';
+import { addTodo, deleteTodo, editTodo } from './redux/reducers/todoReducer';
 
 function App() {
   const { todoList } = useSelector((state) => state.todoReducer);
@@ -17,6 +17,14 @@ function App() {
     dispatch(deleteTodo(todo));
   };
 
+  const handleEditButtonClick = (id, editedTodoText) => {
+    const editedTodo = {
+      id,
+      text: editedTodoText,
+    };
+    dispatch(editTodo(editedTodo));
+  };
+
   return (
     <div>
       <Header />
@@ -25,11 +33,13 @@ function App() {
         ? (
           <div>
             {todoList.map((todo) => (
-              <ListTodos
-                key={todo.id}
-                todo={todo}
-                handleDeleteButtonClick={handleDeleteButtonClick}
-              />
+              <div key={todo.id}>
+                <ListTodos
+                  todo={todo}
+                  handleDeleteButtonClick={handleDeleteButtonClick}
+                  handleEditButtonClick={handleEditButtonClick}
+                />
+              </div>
             ))}
           </div>
         )

@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ImCancelCircle } from 'react-icons/im';
-import { BiEdit } from 'react-icons/bi';
-import { RiDeleteBin6Line, RiCheckboxCircleLine } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
-import { editTodo } from '../../redux/reducers/todoReducer';
+import SharedButton from '../button/SharedButton';
 
 function ListTodos(props) {
-  const { todo, handleDeleteButtonClick } = props; // adicionar completed
+  const { todo, handleDeleteButtonClick, handleEditButtonClick } = props; // adicionar completed
   const { text, id } = todo;
   const [editEnabled, setEditEnabled] = useState(false);
-  const [editTodoState, setEditTodoState] = useState(text);
+  const [editedTodoText, setEditedTodoText] = useState(text);
 
-  const dispatch = useDispatch();
-
-  const handleEditTodo = () => {
-    const editedTodo = {
-      id,
-      text: editTodoState,
-    };
-    dispatch(editTodo(editedTodo));
+  const confirmEditButtonClick = () => {
+    handleEditButtonClick(id, editedTodoText);
     setEditEnabled(!editEnabled);
   };
+
+  console.log(todo.id);
 
   return (
     <div data-testid="itemContainer">
@@ -31,20 +23,15 @@ function ListTodos(props) {
             <p data-testid="itemTodo">
               {text}
             </p>
-            <button
-              type="button"
-              data-testid="deleteButton"
-              onClick={() => handleDeleteButtonClick(id)}
-            >
-              <RiDeleteBin6Line />
-            </button>
-            <button
-              type="button"
-              data-testid="editButton"
-              onClick={() => setEditEnabled(!editEnabled)}
-            >
-              <BiEdit />
-            </button>
+            <SharedButton
+              todoId={id}
+              buttonId="deleteButton"
+              onClickAction={handleDeleteButtonClick}
+            />
+            <SharedButton
+              buttonId="editButton"
+              onClickAction={setEditEnabled}
+            />
           </div>
         )}
       { editEnabled
@@ -52,24 +39,17 @@ function ListTodos(props) {
         <div>
           <input
             type="text"
-            value={editTodoState}
-            onChange={(e) => setEditTodoState(e.target.value)}
+            value={editedTodoText}
+            onChange={(e) => setEditedTodoText(e.target.value)}
           />
-          <button
-            type="button"
-            data-testid="confirmEditButton"
-            onClick={() => handleEditTodo(editTodo)}
-            // onClick={() => setEditEnabled(!editEnabled)}
-          >
-            <RiCheckboxCircleLine />
-          </button>
-          <button
-            type="button"
-            data-testid="cancelEditButton"
-            onClick={() => setEditEnabled(!editEnabled)}
-          >
-            <ImCancelCircle />
-          </button>
+          <SharedButton
+            buttonId="confirmEditButton"
+            onClickAction={confirmEditButtonClick}
+          />
+          <SharedButton
+            buttonId="cancelEditButton"
+            onClickAction={setEditEnabled}
+          />
         </div>
 
         )}
@@ -83,6 +63,7 @@ ListTodos.propTypes = {
     text: PropTypes.string,
   })).isRequired,
   handleDeleteButtonClick: PropTypes.func.isRequired,
+  handleEditButtonClick: PropTypes.func.isRequired,
 };
 
 export default ListTodos;
