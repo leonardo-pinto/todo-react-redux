@@ -34,7 +34,7 @@ function ListTodos(props) {
               checked={completed}
               onChange={() => setCompleted(!completed)}
             />
-            <p className="w-3/4 p-2" data-testid="itemTodo">
+            <p className={completed ? 'w-3/4 p-2 line-through' : 'w-3/4 p-2'} data-testid="itemTodo">
               {text}
             </p>
             <button
