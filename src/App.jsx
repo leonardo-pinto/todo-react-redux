@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/header/Header';
 import TodoInput from './components/input/TodoInput';
 import ListTodos from './components/listTodos/ListTodos';
-import { addTodo, deleteTodo, editTodo } from './redux/reducers/todoReducer';
+import {
+  addTodo, deleteTodo, editTodo, completeTodo,
+} from './redux/reducers/todoReducer';
 
 function App() {
   const { todoList } = useSelector((state) => state.todoReducer);
@@ -25,6 +27,15 @@ function App() {
     dispatch(editTodo(editedTodo));
   };
 
+  const handleCompleteButtonClick = (id, completed) => {
+    const completedTodo = {
+      id,
+      completed,
+    };
+
+    dispatch(completeTodo(completedTodo));
+  };
+
   return (
     <div>
       <Header />
@@ -38,6 +49,7 @@ function App() {
                   todo={todo}
                   handleDeleteButtonClick={handleDeleteButtonClick}
                   handleEditButtonClick={handleEditButtonClick}
+                  handleCompleteButtonClick={handleCompleteButtonClick}
                 />
               </div>
             ))}
