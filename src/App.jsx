@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen items-center bg-indigo-200">
+    <div data-testid="appComponent" className="flex h-screen items-center bg-indigo-200">
       <div className="bg-indigo-300 w-2/3 md:w-1/2 mx-auto border-2 border-solid border-black rounded-lg">
         <Header />
         <TodoInput handleAddButtonClick={handleAddButtonClick} />
