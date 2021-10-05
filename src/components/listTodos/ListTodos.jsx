@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { completeTodo, deleteTodo, editTodo } from '../../redux/reducers/todoReducer';
 import {
   DeleteIcon,
   EditIcon,
@@ -8,24 +10,20 @@ import {
 } from '../icons/icons';
 
 function ListTodos(props) {
-  const {
-    todo: { text, id },
-    handleDeleteButtonClick,
-    handleEditButtonClick,
-    handleCompleteButtonClick,
-  } = props;
+  const dispatch = useDispatch();
+  const { todo: { text, id } } = props;
 
   const [editEnabled, setEditEnabled] = useState(false);
   const [editedTodoText, setEditedTodoText] = useState(text);
   const [completed, setCompleted] = useState(false); // alterar nome
 
-  const confirmEditButtonClick = () => {
-    handleEditButtonClick(id, editedTodoText);
+  const handleConfirmEditButtonClick = () => {
+    dispatch(editTodo({ id, text: editedTodoText }));
     setEditEnabled(!editEnabled);
   };
 
   useEffect(() => {
-    handleCompleteButtonClick(id, completed);
+    dispatch(completeTodo({ id, completed }));
   }, [completed]);
 
   return (
@@ -46,7 +44,7 @@ function ListTodos(props) {
             <button
               type="button"
               data-testid="deleteButton"
-              onClick={() => handleDeleteButtonClick(id)}
+              onClick={() => dispatch(deleteTodo((id)))}
             >
               {DeleteIcon()}
             </button>
@@ -72,7 +70,7 @@ function ListTodos(props) {
             <button
               type="button"
               data-testid="confirmEditButton"
-              onClick={() => confirmEditButtonClick()}
+              onClick={() => handleConfirmEditButtonClick()}
             >
               {ConfirmEditIcon()}
             </button>
@@ -94,9 +92,6 @@ ListTodos.propTypes = {
     id: PropTypes.number,
     text: PropTypes.string,
   }).isRequired,
-  handleDeleteButtonClick: PropTypes.func.isRequired,
-  handleEditButtonClick: PropTypes.func.isRequired,
-  handleCompleteButtonClick: PropTypes.func.isRequired,
 };
 
 export default ListTodos;
