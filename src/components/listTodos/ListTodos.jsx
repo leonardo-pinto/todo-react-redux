@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { completeTodo, deleteTodo, editTodo } from '../../redux/reducers/todoReducer';
@@ -11,20 +11,14 @@ import {
 
 function ListTodos(props) {
   const dispatch = useDispatch();
-  const { todo: { text, id } } = props;
-
+  const { todo: { text, id, completed } } = props;
   const [editEnabled, setEditEnabled] = useState(false);
   const [editedTodoText, setEditedTodoText] = useState(text);
-  const [completed, setCompleted] = useState(false); // alterar nome
 
   const handleConfirmEditButtonClick = () => {
     dispatch(editTodo({ id, text: editedTodoText }));
     setEditEnabled(!editEnabled);
   };
-
-  useEffect(() => {
-    dispatch(completeTodo({ id, completed }));
-  }, [completed]);
 
   return (
     <div data-testid="itemContainer">
@@ -36,7 +30,7 @@ function ListTodos(props) {
               type="checkbox"
               data-testid="completedCheckbox"
               checked={completed}
-              onChange={() => setCompleted(!completed)}
+              onChange={() => dispatch(completeTodo({ id, completed: !completed }))}
             />
             <p className={completed ? 'w-3/4 p-2 line-through' : 'w-3/4 p-2'} data-testid="itemTodo">
               {text}
@@ -91,6 +85,7 @@ ListTodos.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number,
     text: PropTypes.string,
+    completed: PropTypes.bool,
   }).isRequired,
 };
 

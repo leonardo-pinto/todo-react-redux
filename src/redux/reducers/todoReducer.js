@@ -2,34 +2,25 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const todoSlice = createSlice({
   name: 'todos',
-  initialState: {
-    todoList: [],
-  },
+  initialState: [],
   reducers: {
     addTodo(state, action) {
-      return {
+      return [
         ...state,
-        todoList: [
-          ...state.todoList, {
-            id: ((state.todoList.length === 0)
-              ? 1
-              : state.todoList[state.todoList.length - 1].id + 1),
-            text: action.payload,
-            completed: false,
-          },
-        ],
-      };
+        {
+          id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+          text: action.payload,
+          completed: false,
+        },
+      ];
     },
     deleteTodo(state, action) {
-      return {
-        ...state,
-        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
-      };
+      const filteredTodos = state.filter(({ id }) => id !== action.payload);
+      return filteredTodos;
     },
     editTodo(state, action) {
-      return {
-        ...state,
-        todoList: state.todoList.map((todo) => {
+      return (
+        state.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -37,13 +28,12 @@ const todoSlice = createSlice({
             };
           }
           return todo;
-        }),
-      };
+        })
+      );
     },
     completeTodo(state, action) {
-      return {
-        ...state,
-        todoList: state.todoList.map((todo) => {
+      return (
+        state.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -51,8 +41,8 @@ const todoSlice = createSlice({
             };
           }
           return todo;
-        }),
-      };
+        })
+      );
     },
   },
 });

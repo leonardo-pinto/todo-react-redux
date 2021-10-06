@@ -1,94 +1,117 @@
 import React from 'react';
 import {
-  render, screen,
+  render,
+  screen,
+  cleanup,
+  fireEvent,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import { configureStore } from '@reduxjs/toolkit';
+import todoReducer from './redux/reducers/todoReducer';
+// import store from './redux/store';
 import App from './App';
-import {
-  addTodo, completeTodo, deleteTodo, editTodo,
-} from './redux/reducers/todoReducer';
 
-describe('App Component cycle with all todo actions', () => {
-  beforeEach(() => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+beforeEach(() => {
+  const store = configureStore({
+    reducer: {
+      todoReducer,
+    },
+  });
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  );
+});
+
+afterEach(cleanup);
+
+describe('App component', () => {
+  it('renders without errors', () => {
+    const appContainer = screen.getByTestId('appContainer');
+    expect(appContainer).toBeInTheDocument();
   });
 
-  it('Should render without errors', () => {
-    const appComponent = screen.getByTestId('appComponent');
-    expect(appComponent).toBeInTheDocument();
+  it('renders text "No todos" if the initial state is empty', () => {
+    const noTodos = screen.getByText('No todos');
+    expect(noTodos).toBeInTheDocument();
   });
 
-  it('Store is updated correctly after dispatching addTodo action', () => {
-    store.dispatch(addTodo('test 1'));
-    const newStore = store.getState().todoReducer.todoList;
-    expect(newStore).toStrictEqual([{ id: 1, text: 'test 1', completed: false }]);
+  it('if a todo is added must render todos container', () => {
+    const todosInput = screen.getByTestId('todoInput');
+    fireEvent.change(todosInput, { target: { value: 'test' } });
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
+
+    const todosContainer = screen.getByTestId('todosContainer');
+    expect(todosContainer).toBeInTheDocument();
   });
 
-  // it('Store is updated correctly after dispatching deleteTodo action', () => {
-  //   store.dispatch(addTodo('test 2'));
-  //   store.dispatch(addTodo('test 3'));
-  //   store.dispatch(deleteTodo(2));
+  it('should delete todo after clicking on delete button', () => {
+    const todosInput = screen.getByTestId('todoInput');
+    fireEvent.change(todosInput, { target: { value: 'test' } });
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
 
-  //   const expectedState = [
-  //     {
-  //       completed: false,
-  //       id: 1,
-  //       text: 'test 1',
-  //     },
-  //     {
-  //       completed: false,
-  //       id: 3,
-  //       text: 'test 3',
-  //     },
-  //   ];
+    const todoText = screen.getByText(/test/);
 
-  //   const newStore = store.getState().todoReducer.todoList;
-  //   expect(newStore).toStrictEqual(expectedState);
-  // });
+    expect(todoText).toBeInTheDocument();
 
-  // it('Store is updated correctly after dispatching editTodo action', () => {
-  //   store.dispatch(editTodo({ id: 3, text: 'edited test 3' }));
-  //   const newStore = store.getState().todoReducer.todoList;
+    const deleteBtn = screen.getByTestId('deleteButton');
+    fireEvent.click(deleteBtn);
 
-  //   const expectedState = [
-  //     {
-  //       completed: false,
-  //       id: 1,
-  //       text: 'test 1',
-  //     },
-  //     {
-  //       completed: false,
-  //       id: 3,
-  //       text: 'edited test 3',
-  //     },
-  //   ];
+    expect(todoText).not.toBeInTheDocument();
+  });
 
-  //   expect(newStore).toStrictEqual(expectedState);
-  // });
+  it('Should edit todo after clicking on confirm edit button', () => {
+    const todosInput = screen.getByTestId('todoInput');
+    fireEvent.change(todosInput, { target: { value: 'test' } });
 
-  // it('Store is updated correctly after dispatching completeTodo action', () => {
-  //   store.dispatch(completeTodo({ id: 1, completed: true }));
-  //   const newStore = store.getState().todoReducer.todoList;
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
 
-  //   const expectedState = [
-  //     {
-  //       completed: true,
-  //       id: 1,
-  //       text: 'test 1',
-  //     },
-  //     {
-  //       completed: false,
-  //       id: 3,
-  //       text: 'edited test 3',
-  //     },
-  //   ];
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
 
-  //   expect(newStore).toStrictEqual(expectedState);
-  // });
+    const editTodoInput = screen.getByTestId('editTodoInput');
+    fireEvent.change(editTodoInput, { target: { value: 'edited test' } });
+
+    const confirmEditButton = screen.getByTestId('confirmEditButton');
+    fireEvent.click(confirmEditButton);
+
+    const editedTodo = screen.getByText(/edited test/);
+    expect(editedTodo).toBeInTheDocument();
+  });
+
+  it('Should not edit todo after clicking on cancel edit button', () => {
+    const todosInput = screen.getByTestId('todoInput');
+    fireEvent.change(todosInput, { target: { value: 'test' } });
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
+
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
+
+    const editTodoInput = screen.getByTestId('editTodoInput');
+    fireEvent.change(editTodoInput, { target: { value: 'edited test' } });
+
+    const cancelEditButton = screen.getByTestId('cancelEditButton');
+    fireEvent.click(cancelEditButton);
+
+    const editedTodo = screen.getByText(/test/);
+    expect(editedTodo).toBeInTheDocument();
+  });
+
+  it('Should change todo checked value value after clicking on checkbox', () => {
+    const todosInput = screen.getByTestId('todoInput');
+    fireEvent.change(todosInput, { target: { value: 'test' } });
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
+
+    const checkbox = screen.getByTestId('completedCheckbox');
+    expect(checkbox.checked).toBe(false);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(true);
+  });
 });

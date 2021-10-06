@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../../redux/reducers/todoReducer';
 import { AddIcon } from '../icons/icons';
@@ -8,9 +8,10 @@ function TodoInput() {
 
   const [todo, setTodo] = useState('');
 
-  useEffect(() => {
+  const handleAddTodoClick = () => {
+    dispatch(addTodo(todo));
     setTodo('');
-  }, [dispatch]);
+  };
 
   return (
     <div className="my-8 w-full flex justify-center items-center" data-testid="inputContainer">
@@ -27,7 +28,7 @@ function TodoInput() {
       <button
         type="button"
         data-testid="addButton"
-        onClick={() => dispatch(addTodo((todo)))}
+        onClick={() => handleAddTodoClick()}
       >
         {AddIcon()}
       </button>

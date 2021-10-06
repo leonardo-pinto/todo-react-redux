@@ -7,20 +7,17 @@ import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import TodoInput from './TodoInput';
 
+beforeEach(() => {
+  render(
+    <Provider store={store}>
+      <TodoInput />
+    </Provider>,
+  );
+});
+
+afterEach(cleanup);
+
 describe('TodoInput component', () => {
-  let addClickMock;
-
-  beforeEach(() => {
-    addClickMock = jest.fn();
-    render(
-      <Provider store={store}>
-        <TodoInput handleAddButtonClick={addClickMock} />
-      </Provider>,
-    );
-  });
-
-  afterEach(cleanup);
-
   it('container renders correctly', () => {
     const container = screen.getByTestId('inputContainer');
     expect(container).toBeInTheDocument();
@@ -40,12 +37,5 @@ describe('TodoInput component', () => {
     const input = screen.getByTestId('todoInput');
     fireEvent.change(input, { target: { value: 'test' } });
     expect(input.value).toBe('test');
-  });
-
-  it('calls "onClick" on button click', () => {
-    const addBtn = screen.getByTestId('addButton');
-
-    fireEvent.click(addBtn);
-    expect(addClickMock).toHaveBeenCalledTimes(1);
   });
 });
