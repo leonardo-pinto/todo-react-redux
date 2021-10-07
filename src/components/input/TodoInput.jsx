@@ -16,7 +16,7 @@ function TodoInput() {
   return (
     <div className="my-8 w-full flex justify-center items-center" data-testid="inputContainer">
       <input
-        className="shadow appearance-none border rounded mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-3/4 mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         type="text"
         name="todoInput"
         maxLength="30"

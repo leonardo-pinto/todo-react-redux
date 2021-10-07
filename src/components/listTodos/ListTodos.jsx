@@ -26,7 +26,7 @@ function ListTodos(props) {
         ? (
           <div className="space-x-4 flex justify-center items-center p-4 w-full">
             <input
-              className="w-4 h-4 p-2"
+              className="w-8 h-8 sm:w-6 sm:h-6"
               type="checkbox"
               data-testid="completedCheckbox"
               checked={completed}
@@ -52,9 +52,9 @@ function ListTodos(props) {
           </div>
         )
         : (
-          <div className="space-x-4 flex justify-center items-center p-4">
+          <div className="space-x-4 flex justify-center items-center p-2 w-full">
             <input
-              className="shadow appearance-none border rounded mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-3/4 mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               data-testid="editTodoInput"
               type="text"
               maxLength="30"

@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div data-testid="appContainer" className="flex h-screen items-center bg-indigo-200">
-      <div className="bg-indigo-300 w-2/3 md:w-1/2 mx-auto border-2 border-solid border-black rounded-lg">
+      <div className="bg-indigo-300 w-4/5 sm:w-2/4 md:w-5/12 mx-auto border-2 border-solid border-black rounded-lg">
         <Header />
         <TodoInput />
         { todos.length !== 0
