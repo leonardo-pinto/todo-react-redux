@@ -1,73 +1,51 @@
 import todoReducer, {
   addTodo, deleteTodo, editTodo, completeTodo,
 } from './todoReducer';
+import '@testing-library/jest-dom';
+
+const testState = {
+  todos: [
+    {
+      id: 1,
+      completed: false,
+      text: 'text 1',
+    },
+    {
+      id: 2,
+      completed: false,
+      text: 'text 2',
+    },
+    {
+      id: 3,
+      completed: false,
+      text: 'text 3',
+    },
+  ],
+};
 
 describe('todoReducer', () => {
-  it('Should return default state', () => {
+  it('Should return default state if no action is received', () => {
     const newState = todoReducer(undefined, {});
-    expect(newState).toEqual({ todoList: [] });
+    expect(newState).toEqual({ todos: [] });
   });
 
-  it('Should return new state if receiving action type addTodo', () => {
-    const todo = 'study redux';
+  it('Should return new state if receiving action type addTodo and todo must have id 0', () => {
     const newState = todoReducer(undefined, {
       type: addTodo,
-      payload: todo,
+      payload: 'testTodo',
     });
 
-    const expectedItem = {
-      completed: false,
-      id: 1,
-      text: todo,
-    };
-
-    expect(newState).toEqual({ todoList: [expectedItem] });
-  });
-
-  it('Should create todo with id 1 in case there are not previous todos', () => {
-    const todo = 'test';
-    const newState = todoReducer(undefined, {
-      type: addTodo,
-      payload: todo,
-    });
-
-    const expectedNewState = {
-      completed: false,
-      id: 1,
-      text: todo,
-    };
-
-    expect(newState).toEqual({ todoList: [expectedNewState] });
+    expect(newState.todos[0].id).toBe(0);
   });
 
   it('Should create todo with id 4 in case there are two previous todos', () => {
-    const initialState = {
-      todoList: [
-        {
-          id: 1,
-          completed: false,
-          text: 'text 1',
-        },
-        {
-          id: 2,
-          completed: false,
-          text: 'text 2',
-        },
-        {
-          id: 3,
-          completed: false,
-          text: 'text 3',
-        },
-      ],
-    };
-
-    const newState = todoReducer(initialState, {
+    const newState = todoReducer(testState, {
       type: addTodo,
       payload: 'text 4',
     });
 
     const expectedNewState = {
-      todoList: [
+      todos: [
         {
           id: 1,
           completed: false,
@@ -90,35 +68,18 @@ describe('todoReducer', () => {
         },
       ],
     };
-
     expect(newState).toStrictEqual(expectedNewState);
   });
 
   it('Should delete todo if receiving action type deleteTodo', () => {
-    const initialState = {
-      todoList: [{
-        id: 1,
-        completed: false,
-        text: 'study redux',
-      }],
-    };
     const idToBeRemoved = 1;
-    const newState = todoReducer(initialState, {
+    const newState = todoReducer(testState, {
       type: deleteTodo,
       payload: idToBeRemoved,
     });
 
-    expect(newState).toEqual({ todoList: [] });
-  });
-
-  it('Should edit todo if receiving action type editTodo', () => {
-    const initialState = {
-      todoList: [
-        {
-          id: 1,
-          completed: false,
-          text: 'text 1',
-        },
+    const expectedNewState = {
+      todos: [
         {
           id: 2,
           completed: false,
@@ -131,9 +92,14 @@ describe('todoReducer', () => {
         },
       ],
     };
+
+    expect(newState).toEqual(expectedNewState);
+  });
+
+  it('Should edit todo if receiving action type editTodo', () => {
     const idToBeEdited = 2;
 
-    const newState = todoReducer(initialState, {
+    const newState = todoReducer(testState, {
       type: editTodo,
       payload: {
         id: idToBeEdited,
@@ -142,7 +108,7 @@ describe('todoReducer', () => {
     });
 
     const expectedNewState = {
-      todoList: [
+      todos: [
         {
           id: 1,
           completed: false,
@@ -165,26 +131,7 @@ describe('todoReducer', () => {
   });
 
   it('Should mark checkbox as checked if receiving action type completeTodo', () => {
-    const initialState = {
-      todoList: [
-        {
-          id: 1,
-          completed: false,
-          text: 'test 1',
-        },
-        {
-          id: 2,
-          completed: false,
-          text: 'test 2',
-        },
-        {
-          id: 3,
-          completed: false,
-          text: 'test 3',
-        },
-      ],
-    };
-    const newState = todoReducer(initialState, {
+    const newState = todoReducer(testState, {
       type: completeTodo,
       payload: {
         id: 1,
@@ -193,21 +140,21 @@ describe('todoReducer', () => {
     });
 
     const expectedNewState = {
-      todoList: [
+      todos: [
         {
           id: 1,
           completed: true,
-          text: 'test 1',
+          text: 'text 1',
         },
         {
           id: 2,
           completed: false,
-          text: 'test 2',
+          text: 'text 2',
         },
         {
           id: 3,
           completed: false,
-          text: 'test 3',
+          text: 'text 3',
         },
       ],
     };

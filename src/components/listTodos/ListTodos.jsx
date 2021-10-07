@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { completeTodo, deleteTodo, editTodo } from '../../redux/reducers/todoReducer';
 import {
   DeleteIcon,
   EditIcon,
@@ -8,25 +10,15 @@ import {
 } from '../icons/icons';
 
 function ListTodos(props) {
-  const {
-    todo: { text, id },
-    handleDeleteButtonClick,
-    handleEditButtonClick,
-    handleCompleteButtonClick,
-  } = props;
-
+  const dispatch = useDispatch();
+  const { todo: { text, id, completed } } = props;
   const [editEnabled, setEditEnabled] = useState(false);
   const [editedTodoText, setEditedTodoText] = useState(text);
-  const [completed, setCompleted] = useState(false); // alterar nome
 
-  const confirmEditButtonClick = () => {
-    handleEditButtonClick(id, editedTodoText);
+  const handleConfirmEditButtonClick = () => {
+    dispatch(editTodo({ id, text: editedTodoText }));
     setEditEnabled(!editEnabled);
   };
-
-  useEffect(() => {
-    handleCompleteButtonClick(id, completed);
-  }, [completed]);
 
   return (
     <div data-testid="itemContainer">
@@ -34,11 +26,11 @@ function ListTodos(props) {
         ? (
           <div className="space-x-4 flex justify-center items-center p-4 w-full">
             <input
-              className="w-4 h-4 p-2"
+              className="w-8 h-8 sm:w-6 sm:h-6"
               type="checkbox"
               data-testid="completedCheckbox"
               checked={completed}
-              onChange={() => setCompleted(!completed)}
+              onChange={() => dispatch(completeTodo({ id, completed: !completed }))}
             />
             <p className={completed ? 'w-3/4 p-2 line-through' : 'w-3/4 p-2'} data-testid="itemTodo">
               {text}
@@ -46,7 +38,7 @@ function ListTodos(props) {
             <button
               type="button"
               data-testid="deleteButton"
-              onClick={() => handleDeleteButtonClick(id)}
+              onClick={() => dispatch(deleteTodo((id)))}
             >
               {DeleteIcon()}
             </button>
@@ -60,9 +52,9 @@ function ListTodos(props) {
           </div>
         )
         : (
-          <div className="space-x-4 flex justify-center items-center p-4">
+          <div className="space-x-4 flex justify-center items-center p-2 w-full">
             <input
-              className="shadow appearance-none border rounded mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-3/4 mx-3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               data-testid="editTodoInput"
               type="text"
               maxLength="30"
@@ -72,7 +64,7 @@ function ListTodos(props) {
             <button
               type="button"
               data-testid="confirmEditButton"
-              onClick={() => confirmEditButtonClick()}
+              onClick={() => handleConfirmEditButtonClick()}
             >
               {ConfirmEditIcon()}
             </button>
@@ -93,10 +85,8 @@ ListTodos.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.number,
     text: PropTypes.string,
+    completed: PropTypes.bool,
   }).isRequired,
-  handleDeleteButtonClick: PropTypes.func.isRequired,
-  handleEditButtonClick: PropTypes.func.isRequired,
-  handleCompleteButtonClick: PropTypes.func.isRequired,
 };
 
 export default ListTodos;

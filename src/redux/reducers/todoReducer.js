@@ -3,17 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const todoSlice = createSlice({
   name: 'todos',
   initialState: {
-    todoList: [],
+    todos: [],
   },
   reducers: {
     addTodo(state, action) {
       return {
         ...state,
-        todoList: [
-          ...state.todoList, {
-            id: ((state.todoList.length === 0)
-              ? 1
-              : state.todoList[state.todoList.length - 1].id + 1),
+        todos: [
+          ...state.todos,
+          {
+            id: state.todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
             text: action.payload,
             completed: false,
           },
@@ -21,15 +20,16 @@ const todoSlice = createSlice({
       };
     },
     deleteTodo(state, action) {
+      const filteredTodos = state.todos.filter(({ id }) => id !== action.payload);
       return {
         ...state,
-        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
+        todos: filteredTodos,
       };
     },
     editTodo(state, action) {
       return {
         ...state,
-        todoList: state.todoList.map((todo) => {
+        todos: state.todos.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -43,7 +43,7 @@ const todoSlice = createSlice({
     completeTodo(state, action) {
       return {
         ...state,
-        todoList: state.todoList.map((todo) => {
+        todos: state.todos.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -57,13 +57,11 @@ const todoSlice = createSlice({
   },
 });
 
-const { actions, reducer } = todoSlice;
-
 export const {
   addTodo,
   deleteTodo,
   editTodo,
   completeTodo,
-} = actions;
+} = todoSlice.actions;
 
-export default reducer;
+export default todoSlice.reducer;

@@ -1,61 +1,29 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Header from './components/header/Header';
 import TodoInput from './components/input/TodoInput';
 import ListTodos from './components/listTodos/ListTodos';
-import {
-  addTodo, deleteTodo, editTodo, completeTodo,
-} from './redux/reducers/todoReducer';
 
 function App() {
-  const { todoList } = useSelector((state) => state.todoReducer);
-  const dispatch = useDispatch();
-
-  const handleAddButtonClick = (todo) => {
-    dispatch(addTodo(todo));
-  };
-
-  const handleDeleteButtonClick = (todo) => {
-    dispatch(deleteTodo(todo));
-  };
-
-  const handleEditButtonClick = (id, editedTodoText) => {
-    const editedTodo = {
-      id,
-      text: editedTodoText,
-    };
-    dispatch(editTodo(editedTodo));
-  };
-
-  const handleCompleteButtonClick = (id, completed) => {
-    const completedTodo = {
-      id,
-      completed,
-    };
-
-    dispatch(completeTodo(completedTodo));
-  };
+  const { todos } = useSelector((state) => state.todoReducer);
 
   return (
-    <div className="flex h-screen items-center bg-indigo-200">
-      <div className="bg-indigo-300 w-2/3 md:w-1/2 mx-auto border-2 border-solid border-black rounded-lg">
+    <div data-testid="appContainer" className="flex h-screen items-center bg-indigo-200">
+      <div className="bg-indigo-300 w-4/5 sm:w-2/4 md:w-5/12 mx-auto border-2 border-solid border-black rounded-lg">
         <Header />
-        <TodoInput handleAddButtonClick={handleAddButtonClick} />
-        { todoList.length > 0
+        <TodoInput />
+        { todos.length !== 0
           ? (
-            <div>
-              {todoList.map((todo) => (
+            <div data-testid="todosContainer">
+              {todos.map((todo) => (
                 <div key={todo.id}>
                   <ListTodos
                     todo={todo}
-                    handleDeleteButtonClick={handleDeleteButtonClick}
-                    handleEditButtonClick={handleEditButtonClick}
-                    handleCompleteButtonClick={handleCompleteButtonClick}
                   />
                 </div>
               ))}
             </div>
           )
-          : <h1 className="p-4 text-2xl text-center">No todos</h1>}
+          : <h1 data-testid="noTodos" className="p-4 text-2xl text-center">To-do list is empty</h1>}
       </div>
     </div>
   );
