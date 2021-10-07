@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# To Do List
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+<p> The project consists of a simple todo list application to practice front-end skills. </p>
+<p> The application was developed using React, and the app's state was managed using Redux. </p>
+<p> Responsive layout and styles were applied using Tailwind CSS.</p>
+<p> Unit and integrations tests were developed using Jest and React Testing Library. </p>
 
-In the project directory, you can run:
+![To Do List example](src/images/todo-example.png?raw=true)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* Add todo
+* Delete todo
+* Mark todo as completed
+* Edit todo
+* Mobile first
 
-### `npm test`
+### Technologies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* <a href="https://reactjs.org/">React</a>
+* <a href="https://redux.js.org/">Redux</a>
+* <a href="https://tailwindcss.com/">Tailwind CSS</a>
+* <a href="https://jestjs.io/">Jest</a>
+* <a href="https://testing-library.com/">React Testing Library</a>
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<p>Before getting started, you need to have NodeJS installed </p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+  
+### Instalation
 
-### `npm run eject`
+1. Clone the repository
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- `git clone git@github.com:leonardo-pinto/todo-react-redux.git`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Enter in the created directory:
+  - `cd todo-react-redux`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+2. Install the required dependencies
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `npm install`
 
-## Learn More
+3. Start running the application !
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `npm start`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### Running tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Type the following command in the terminal:
 
-### Analyzing the Bundle Size
+- `npm run test`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+After this, the following message should appear in the terminal:
 
-### Making a Progressive Web App
+```$
+Watch Usage
+ › Press a to run all tests.
+ › Press f to run only failed tests.
+ › Press q to quit watch mode.
+ › Press p to filter by a filename regex pattern.
+ › Press t to filter by a test name regex pattern.
+ › Press Enter to trigger a test run.
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Press 'a' key to run all tests!
 
-### Advanced Configuration
+### Tests coverage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+To verify tests coverage, type the following command in the terminal:
 
-### Deployment
+- `npm run test-coverage`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The following message should appear in the terminal:
 
-### `npm run build` fails to minify
+```
+--------------------------|---------|----------|---------|---------|-------------------
+File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+--------------------------|---------|----------|---------|---------|-------------------
+All files                 |     100 |      100 |     100 |     100 |                   
+ src                      |     100 |      100 |     100 |     100 |                   
+  App.jsx                 |     100 |      100 |     100 |     100 |                   
+ src/components/header    |     100 |      100 |     100 |     100 |                   
+  Header.jsx              |     100 |      100 |     100 |     100 |                   
+ src/components/icons     |     100 |      100 |     100 |     100 |                   
+  icons.jsx               |     100 |      100 |     100 |     100 |                   
+ src/components/input     |     100 |      100 |     100 |     100 |                   
+  TodoInput.jsx           |     100 |      100 |     100 |     100 |                   
+ src/components/listTodos |     100 |      100 |     100 |     100 |                   
+  ListTodos.jsx           |     100 |      100 |     100 |     100 |                   
+ src/redux                |     100 |      100 |     100 |     100 |                   
+  store.jsx               |     100 |      100 |     100 |     100 |                   
+ src/redux/reducers       |     100 |      100 |     100 |     100 |                   
+  todoReducer.js          |     100 |      100 |     100 |     100 |                   
+ src/utils                |     100 |      100 |     100 |     100 |                   
+  renderWithRedux.jsx     |     100 |      100 |     100 |     100 |                   
+--------------------------|---------|----------|---------|---------|-------------------
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Author
+
+Leonardo Pinto
+
+https://www.linkedin.com/in/leonardo-antonio-pinto/
