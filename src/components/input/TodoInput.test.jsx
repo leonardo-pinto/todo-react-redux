@@ -29,8 +29,8 @@ describe('TodoInput component', () => {
   });
 
   it('add todo button renders correctly', () => {
-    const addBtn = screen.getByTestId('addButton');
-    expect(addBtn).toBeInTheDocument();
+    const addButton = screen.getByTestId('addButton');
+    expect(addButton).toBeInTheDocument();
   });
 
   it('changes input element value', () => {

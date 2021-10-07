@@ -1,60 +1,52 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  cleanup,
-  fireEvent,
-} from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import todoReducer from './redux/reducers/todoReducer';
-// import store from './redux/store';
+import { render } from './utils/renderWithRedux';
 import App from './App';
 
-beforeEach(() => {
-  const store = configureStore({
-    reducer: {
-      todoReducer,
-    },
-  });
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  );
-});
-
-afterEach(cleanup);
+const preloadedState = {
+  todoReducer: {
+    todos:
+     [
+       {
+         id: 0,
+         completed:
+         false,
+         text: 'text',
+       }],
+  },
+};
 
 describe('App component', () => {
-  it('renders without errors', () => {
+  it('should render the app container correctly', () => {
+    render(<App />);
     const appContainer = screen.getByTestId('appContainer');
     expect(appContainer).toBeInTheDocument();
   });
 
   it('renders text "No todos" if the initial state is empty', () => {
-    const noTodos = screen.getByText('No todos');
+    render(<App />);
+    const noTodos = screen.getByText(/To-do list is empty/);
     expect(noTodos).toBeInTheDocument();
   });
 
-  it('if a todo is added must render todos container', () => {
-    const todosInput = screen.getByTestId('todoInput');
-    fireEvent.change(todosInput, { target: { value: 'test' } });
+  it('should render todos container if a todo is add', () => {
+    render(<App />);
+
+    const todoInput = screen.getByTestId('todoInput');
+    fireEvent.change(todoInput, { target: { value: 'test' } });
     const addButton = screen.getByTestId('addButton');
     fireEvent.click(addButton);
 
     const todosContainer = screen.getByTestId('todosContainer');
+
     expect(todosContainer).toBeInTheDocument();
   });
 
   it('should delete todo after clicking on delete button', () => {
-    const todosInput = screen.getByTestId('todoInput');
-    fireEvent.change(todosInput, { target: { value: 'test' } });
-    const addButton = screen.getByTestId('addButton');
-    fireEvent.click(addButton);
+    render(<App />, { preloadedState });
 
-    const todoText = screen.getByText(/test/);
+    const todoText = screen.getByText(/text/);
 
     expect(todoText).toBeInTheDocument();
 
@@ -64,54 +56,47 @@ describe('App component', () => {
     expect(todoText).not.toBeInTheDocument();
   });
 
-  it('Should edit todo after clicking on confirm edit button', () => {
-    const todosInput = screen.getByTestId('todoInput');
-    fireEvent.change(todosInput, { target: { value: 'test' } });
+  it('should edit todos after clicking on the confirm edit button', () => {
+    render(<App />, { preloadedState });
 
-    const addButton = screen.getByTestId('addButton');
-    fireEvent.click(addButton);
+    const todoText = screen.getByText(/text/);
+    expect(todoText).toBeInTheDocument();
 
     const editBtn = screen.getByTestId('editButton');
     fireEvent.click(editBtn);
 
     const editTodoInput = screen.getByTestId('editTodoInput');
-    fireEvent.change(editTodoInput, { target: { value: 'edited test' } });
+    fireEvent.change(editTodoInput, { target: { value: 'edited text' } });
 
     const confirmEditButton = screen.getByTestId('confirmEditButton');
     fireEvent.click(confirmEditButton);
 
-    const editedTodo = screen.getByText(/edited test/);
-    expect(editedTodo).toBeInTheDocument();
-  });
-
-  it('Should not edit todo after clicking on cancel edit button', () => {
-    const todosInput = screen.getByTestId('todoInput');
-    fireEvent.change(todosInput, { target: { value: 'test' } });
-    const addButton = screen.getByTestId('addButton');
-    fireEvent.click(addButton);
-
-    const editBtn = screen.getByTestId('editButton');
-    fireEvent.click(editBtn);
-
-    const editTodoInput = screen.getByTestId('editTodoInput');
-    fireEvent.change(editTodoInput, { target: { value: 'edited test' } });
-
-    const cancelEditButton = screen.getByTestId('cancelEditButton');
-    fireEvent.click(cancelEditButton);
-
-    const editedTodo = screen.getByText(/test/);
-    expect(editedTodo).toBeInTheDocument();
+    const editedTodoText = screen.getByText(/edited text/);
+    expect(editedTodoText).toBeInTheDocument();
   });
 
   it('Should change todo checked value value after clicking on checkbox', () => {
-    const todosInput = screen.getByTestId('todoInput');
-    fireEvent.change(todosInput, { target: { value: 'test' } });
-    const addButton = screen.getByTestId('addButton');
-    fireEvent.click(addButton);
+    render(<App />, { preloadedState });
 
     const checkbox = screen.getByTestId('completedCheckbox');
     expect(checkbox.checked).toBe(false);
     fireEvent.click(checkbox);
     expect(checkbox.checked).toBe(true);
+  });
+
+  it('Should not edit todo after clicking on cancel edit button', () => {
+    render(<App />, { preloadedState });
+
+    const editBtn = screen.getByTestId('editButton');
+    fireEvent.click(editBtn);
+
+    const editTodoInput = screen.getByTestId('editTodoInput');
+    fireEvent.change(editTodoInput, { target: { value: 'edited text' } });
+
+    const cancelEditButton = screen.getByTestId('cancelEditButton');
+    fireEvent.click(cancelEditButton);
+
+    const editedTodo = screen.getByText(/text/);
+    expect(editedTodo).toBeInTheDocument();
   });
 });

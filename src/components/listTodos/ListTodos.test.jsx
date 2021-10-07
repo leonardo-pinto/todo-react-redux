@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  render, screen, fireEvent, cleanup,
+  screen, fireEvent, cleanup,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import store from '../../redux/store';
 import ListTodos from './ListTodos';
+import { render } from '../../utils/renderWithRedux';
 
 const todoTest = {
   id: 1,
@@ -13,13 +12,7 @@ const todoTest = {
   completed: false,
 };
 
-beforeEach(() => {
-  render(
-    <Provider store={store}>
-      <ListTodos todo={todoTest} />
-    </Provider>,
-  );
-});
+beforeEach(() => render(<ListTodos todo={todoTest} />));
 
 afterEach(cleanup);
 

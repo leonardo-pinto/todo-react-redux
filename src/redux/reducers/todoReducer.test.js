@@ -2,30 +2,31 @@ import todoReducer, {
   addTodo, deleteTodo, editTodo, completeTodo,
 } from './todoReducer';
 import '@testing-library/jest-dom';
-import store from '../store';
 
-const testState = [
-  {
-    id: 1,
-    completed: false,
-    text: 'text 1',
-  },
-  {
-    id: 2,
-    completed: false,
-    text: 'text 2',
-  },
-  {
-    id: 3,
-    completed: false,
-    text: 'text 3',
-  },
-];
+const testState = {
+  todos: [
+    {
+      id: 1,
+      completed: false,
+      text: 'text 1',
+    },
+    {
+      id: 2,
+      completed: false,
+      text: 'text 2',
+    },
+    {
+      id: 3,
+      completed: false,
+      text: 'text 3',
+    },
+  ],
+};
 
 describe('todoReducer', () => {
   it('Should return default state if no action is received', () => {
     const newState = todoReducer(undefined, {});
-    expect(newState).toEqual([]);
+    expect(newState).toEqual({ todos: [] });
   });
 
   it('Should return new state if receiving action type addTodo and todo must have id 0', () => {
@@ -34,7 +35,7 @@ describe('todoReducer', () => {
       payload: 'testTodo',
     });
 
-    expect(newState[0].id).toBe(0);
+    expect(newState.todos[0].id).toBe(0);
   });
 
   it('Should create todo with id 4 in case there are two previous todos', () => {
@@ -43,28 +44,30 @@ describe('todoReducer', () => {
       payload: 'text 4',
     });
 
-    const expectedNewState = [
-      {
-        id: 1,
-        completed: false,
-        text: 'text 1',
-      },
-      {
-        id: 2,
-        completed: false,
-        text: 'text 2',
-      },
-      {
-        id: 3,
-        completed: false,
-        text: 'text 3',
-      },
-      {
-        id: 4,
-        completed: false,
-        text: 'text 4',
-      },
-    ];
+    const expectedNewState = {
+      todos: [
+        {
+          id: 1,
+          completed: false,
+          text: 'text 1',
+        },
+        {
+          id: 2,
+          completed: false,
+          text: 'text 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'text 3',
+        },
+        {
+          id: 4,
+          completed: false,
+          text: 'text 4',
+        },
+      ],
+    };
     expect(newState).toStrictEqual(expectedNewState);
   });
 
@@ -75,18 +78,20 @@ describe('todoReducer', () => {
       payload: idToBeRemoved,
     });
 
-    const expectedNewState = [
-      {
-        id: 2,
-        completed: false,
-        text: 'text 2',
-      },
-      {
-        id: 3,
-        completed: false,
-        text: 'text 3',
-      },
-    ];
+    const expectedNewState = {
+      todos: [
+        {
+          id: 2,
+          completed: false,
+          text: 'text 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'text 3',
+        },
+      ],
+    };
 
     expect(newState).toEqual(expectedNewState);
   });
@@ -102,23 +107,25 @@ describe('todoReducer', () => {
       },
     });
 
-    const expectedNewState = [
-      {
-        id: 1,
-        completed: false,
-        text: 'text 1',
-      },
-      {
-        id: 2,
-        completed: false,
-        text: 'Edited text 2',
-      },
-      {
-        id: 3,
-        completed: false,
-        text: 'text 3',
-      },
-    ];
+    const expectedNewState = {
+      todos: [
+        {
+          id: 1,
+          completed: false,
+          text: 'text 1',
+        },
+        {
+          id: 2,
+          completed: false,
+          text: 'Edited text 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'text 3',
+        },
+      ],
+    };
 
     expect(newState).toStrictEqual(expectedNewState);
   });
@@ -132,23 +139,26 @@ describe('todoReducer', () => {
       },
     });
 
-    const expectedNewState = [
-      {
-        id: 1,
-        completed: true,
-        text: 'text 1',
-      },
-      {
-        id: 2,
-        completed: false,
-        text: 'text 2',
-      },
-      {
-        id: 3,
-        completed: false,
-        text: 'text 3',
-      },
-    ];
+    const expectedNewState = {
+      todos: [
+        {
+          id: 1,
+          completed: true,
+          text: 'text 1',
+        },
+        {
+          id: 2,
+          completed: false,
+          text: 'text 2',
+        },
+        {
+          id: 3,
+          completed: false,
+          text: 'text 3',
+        },
+      ],
+    };
+
     expect(newState).toEqual(expectedNewState);
   });
 });

@@ -2,25 +2,34 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const todoSlice = createSlice({
   name: 'todos',
-  initialState: [],
+  initialState: {
+    todos: [],
+  },
   reducers: {
     addTodo(state, action) {
-      return [
+      return {
         ...state,
-        {
-          id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-          text: action.payload,
-          completed: false,
-        },
-      ];
+        todos: [
+          ...state.todos,
+          {
+            id: state.todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+            text: action.payload,
+            completed: false,
+          },
+        ],
+      };
     },
     deleteTodo(state, action) {
-      const filteredTodos = state.filter(({ id }) => id !== action.payload);
-      return filteredTodos;
+      const filteredTodos = state.todos.filter(({ id }) => id !== action.payload);
+      return {
+        ...state,
+        todos: filteredTodos,
+      };
     },
     editTodo(state, action) {
-      return (
-        state.map((todo) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -28,12 +37,13 @@ const todoSlice = createSlice({
             };
           }
           return todo;
-        })
-      );
+        }),
+      };
     },
     completeTodo(state, action) {
-      return (
-        state.map((todo) => {
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
           if (todo.id === action.payload.id) {
             return {
               ...todo,
@@ -41,19 +51,17 @@ const todoSlice = createSlice({
             };
           }
           return todo;
-        })
-      );
+        }),
+      };
     },
   },
 });
-
-const { actions, reducer } = todoSlice;
 
 export const {
   addTodo,
   deleteTodo,
   editTodo,
   completeTodo,
-} = actions;
+} = todoSlice.actions;
 
-export default reducer;
+export default todoSlice.reducer;
