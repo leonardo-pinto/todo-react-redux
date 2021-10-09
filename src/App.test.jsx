@@ -26,7 +26,19 @@ describe('App component', () => {
 
   it('renders text "No todos" if the initial state is empty', () => {
     render(<App />);
-    const noTodos = screen.getByText(/To-do list is empty/);
+    const noTodos = screen.getByText(/To Do list is empty/);
+    expect(noTodos).toBeInTheDocument();
+  });
+
+  it('should not accept an empty to do', () => {
+    render(<App />);
+    const todoInput = screen.getByTestId('todoInput');
+    fireEvent.change(todoInput, { target: { value: '' } });
+
+    const addButton = screen.getByTestId('addButton');
+    fireEvent.click(addButton);
+
+    const noTodos = screen.getByText(/To Do list is empty/);
     expect(noTodos).toBeInTheDocument();
   });
 
