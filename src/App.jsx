@@ -23,7 +23,7 @@ function App() {
               ))}
             </div>
           )
-          : <h1 data-testid="noTodos" className="p-4 text-2xl text-center">To-do list is empty</h1>}
+          : <h1 data-testid="noTodos" className="p-4 text-2xl text-center">To Do list is empty</h1>}
       </div>
     </div>
   );
