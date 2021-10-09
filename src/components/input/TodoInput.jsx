@@ -9,8 +9,10 @@ function TodoInput() {
   const [todo, setTodo] = useState('');
 
   const handleAddTodoClick = () => {
-    dispatch(addTodo(todo));
-    setTodo('');
+    if (todo !== '') {
+      dispatch(addTodo(todo));
+      setTodo('');
+    }
   };
 
   return (
