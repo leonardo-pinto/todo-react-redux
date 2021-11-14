@@ -9,7 +9,7 @@
 
 ![To Do List example](src/images/todo-example.png?raw=true)
 
-## Applicaction Deploy with Vercel
+## Application Deploy with Vercel
 
 * <a href="https://todo-react-redux-murex.vercel.app/">To-Do List</a>
 
